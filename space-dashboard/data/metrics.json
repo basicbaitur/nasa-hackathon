@@ -1,0 +1,142 @@
+{
+  "mission": {
+    "id": "EXP-74",
+    "platform": "ISS · US Orbital Segment",
+    "crewMember": "CM-3 · Flight Engineer",
+    "missionDay": 142,
+    "orbit": 2203,
+    "altitudeKm": 418,
+    "inclinationDeg": 51.64,
+    "cabinPressureKpa": 101.2,
+    "cabinPpCO2mmHg": 2.6,
+    "generatedAt": "2026-11-14T23:00:00Z",
+    "windowHours": 24,
+    "sampleIntervalMin": 60
+  },
+  "baseline": {
+    "hr": 64,
+    "iop": 15.2,
+    "icp": 11.4,
+    "bbb": 1.0,
+    "fmd": 7.4,
+    "jag2": 1.0,
+    "notch4": 1.0,
+    "ndi": 12.0,
+    "dose": 0.1
+  },
+  "thresholds": {
+    "iop": { "watch": 19, "alert": 21, "direction": "high" },
+    "icp": { "watch": 15, "alert": 20, "direction": "high" },
+    "bbb": { "watch": 1.2, "alert": 1.35, "direction": "high" },
+    "fmd": { "watch": 5.0, "alert": 4.0, "direction": "low" },
+    "ndi": { "watch": 35, "alert": 55, "direction": "high" },
+    "hr": { "watch": 110, "alert": 150, "direction": "high" },
+    "dose": { "watch": 30, "alert": 100, "direction": "high" }
+  },
+  "events": [
+    { "start": "2026-11-14T00:00:00Z", "hours": 6, "type": "sleep", "label": "Sleep" },
+    { "start": "2026-11-14T03:00:00Z", "hours": 3, "type": "saa", "label": "SAA" },
+    { "start": "2026-11-14T14:00:00Z", "hours": 1, "type": "exercise", "label": "CEVIS" },
+    { "start": "2026-11-14T15:00:00Z", "hours": 3, "type": "saa", "label": "SAA" },
+    { "start": "2026-11-14T22:00:00Z", "hours": 2, "type": "sleep", "label": "Sleep" }
+  ],
+  "timeseries": [
+    { "t": "2026-11-14T00:00:00Z", "hr": 61, "iop": 18.4, "icp": 15.9, "bbb": 1.14, "fmd": 4.6, "jag2": 0.62, "notch4": 0.68, "ndi": 39.2, "dose": 9.6 },
+    { "t": "2026-11-14T01:00:00Z", "hr": 58, "iop": 18.7, "icp": 16.3, "bbb": 1.15, "fmd": 4.6, "jag2": 0.62, "notch4": 0.67, "ndi": 39.8, "dose": 9.8 },
+    { "t": "2026-11-14T02:00:00Z", "hr": 56, "iop": 19.0, "icp": 16.6, "bbb": 1.15, "fmd": 4.5, "jag2": 0.61, "notch4": 0.67, "ndi": 40.3, "dose": 9.4 },
+    { "t": "2026-11-14T03:00:00Z", "hr": 55, "iop": 19.2, "icp": 16.8, "bbb": 1.18, "fmd": 4.5, "jag2": 0.61, "notch4": 0.66, "ndi": 40.9, "dose": 27.4 },
+    { "t": "2026-11-14T04:00:00Z", "hr": 56, "iop": 19.3, "icp": 16.9, "bbb": 1.21, "fmd": 4.4, "jag2": 0.60, "notch4": 0.66, "ndi": 41.6, "dose": 41.8 },
+    { "t": "2026-11-14T05:00:00Z", "hr": 57, "iop": 19.1, "icp": 16.7, "bbb": 1.22, "fmd": 4.4, "jag2": 0.60, "notch4": 0.65, "ndi": 42.2, "dose": 24.6 },
+    { "t": "2026-11-14T06:00:00Z", "hr": 63, "iop": 18.6, "icp": 16.1, "bbb": 1.20, "fmd": 4.5, "jag2": 0.60, "notch4": 0.66, "ndi": 42.0, "dose": 10.1 },
+    { "t": "2026-11-14T07:00:00Z", "hr": 71, "iop": 17.9, "icp": 15.2, "bbb": 1.19, "fmd": 4.6, "jag2": 0.61, "notch4": 0.66, "ndi": 41.4, "dose": 9.7 },
+    { "t": "2026-11-14T08:00:00Z", "hr": 74, "iop": 17.6, "icp": 14.8, "bbb": 1.18, "fmd": 4.7, "jag2": 0.61, "notch4": 0.67, "ndi": 40.9, "dose": 9.9 },
+    { "t": "2026-11-14T09:00:00Z", "hr": 76, "iop": 17.4, "icp": 14.6, "bbb": 1.17, "fmd": 4.7, "jag2": 0.62, "notch4": 0.67, "ndi": 40.5, "dose": 9.5 },
+    { "t": "2026-11-14T10:00:00Z", "hr": 78, "iop": 17.3, "icp": 14.5, "bbb": 1.17, "fmd": 4.8, "jag2": 0.62, "notch4": 0.68, "ndi": 40.1, "dose": 9.8 },
+    { "t": "2026-11-14T11:00:00Z", "hr": 77, "iop": 17.2, "icp": 14.4, "bbb": 1.16, "fmd": 4.8, "jag2": 0.62, "notch4": 0.68, "ndi": 39.8, "dose": 10.0 },
+    { "t": "2026-11-14T12:00:00Z", "hr": 74, "iop": 17.3, "icp": 14.5, "bbb": 1.16, "fmd": 4.8, "jag2": 0.63, "notch4": 0.68, "ndi": 39.5, "dose": 9.6 },
+    { "t": "2026-11-14T13:00:00Z", "hr": 79, "iop": 17.1, "icp": 14.2, "bbb": 1.16, "fmd": 4.9, "jag2": 0.63, "notch4": 0.69, "ndi": 39.1, "dose": 9.7 },
+    { "t": "2026-11-14T14:00:00Z", "hr": 132, "iop": 16.4, "icp": 13.6, "bbb": 1.17, "fmd": 5.3, "jag2": 0.66, "notch4": 0.71, "ndi": 37.4, "dose": 9.9 },
+    { "t": "2026-11-14T15:00:00Z", "hr": 104, "iop": 16.9, "icp": 14.0, "bbb": 1.18, "fmd": 5.1, "jag2": 0.65, "notch4": 0.70, "ndi": 38.0, "dose": 31.2 },
+    { "t": "2026-11-14T16:00:00Z", "hr": 82, "iop": 17.3, "icp": 14.5, "bbb": 1.21, "fmd": 4.9, "jag2": 0.64, "notch4": 0.69, "ndi": 38.7, "dose": 44.9 },
+    { "t": "2026-11-14T17:00:00Z", "hr": 77, "iop": 17.5, "icp": 14.7, "bbb": 1.23, "fmd": 4.8, "jag2": 0.63, "notch4": 0.68, "ndi": 39.6, "dose": 22.3 },
+    { "t": "2026-11-14T18:00:00Z", "hr": 75, "iop": 17.6, "icp": 14.9, "bbb": 1.22, "fmd": 4.7, "jag2": 0.62, "notch4": 0.67, "ndi": 40.3, "dose": 9.9 },
+    { "t": "2026-11-14T19:00:00Z", "hr": 73, "iop": 17.8, "icp": 15.1, "bbb": 1.21, "fmd": 4.7, "jag2": 0.62, "notch4": 0.67, "ndi": 40.8, "dose": 9.6 },
+    { "t": "2026-11-14T20:00:00Z", "hr": 71, "iop": 17.9, "icp": 15.3, "bbb": 1.20, "fmd": 4.6, "jag2": 0.61, "notch4": 0.66, "ndi": 41.3, "dose": 10.0 },
+    { "t": "2026-11-14T21:00:00Z", "hr": 68, "iop": 18.1, "icp": 15.5, "bbb": 1.19, "fmd": 4.6, "jag2": 0.61, "notch4": 0.66, "ndi": 41.7, "dose": 9.7 },
+    { "t": "2026-11-14T22:00:00Z", "hr": 64, "iop": 18.3, "icp": 15.8, "bbb": 1.19, "fmd": 4.5, "jag2": 0.60, "notch4": 0.65, "ndi": 42.1, "dose": 9.5 },
+    { "t": "2026-11-14T23:00:00Z", "hr": 60, "iop": 18.6, "icp": 16.2, "bbb": 1.19, "fmd": 4.5, "jag2": 0.60, "notch4": 0.65, "ndi": 42.4, "dose": 9.8 }
+  ],
+  "neuroOcular": {
+    "onsdMm": 6.24,
+    "onsdPreflightMm": 5.41,
+    "choroidalThickeningUm": 34,
+    "rnflThickeningUm": 11.8,
+    "retinalVenousDiameterDeltaPct": 8.6,
+    "retinalArteriolarDiameterDeltaPct": -2.1,
+    "frisenGrade": 1,
+    "chorioretinalFolds": true,
+    "globeFlattening": "Mild · posterior",
+    "bbbMarkers": [
+      { "name": "S100B", "unit": "ng/L", "value": 92, "preflight": 58, "source": "Astroglial · BBB leak" },
+      { "name": "NfL", "unit": "pg/mL", "value": 14.2, "preflight": 9.6, "source": "Axonal injury" },
+      { "name": "GFAP", "unit": "pg/mL", "value": 128, "preflight": 87, "source": "Astrocyte activation" },
+      { "name": "MMP-9", "unit": "ng/mL", "value": 412, "preflight": 286, "source": "Tight-junction proteolysis" }
+    ]
+  },
+  "endothelial": {
+    "assay": "scRNA-seq of circulating endothelial cells · qPCR validated",
+    "pathway": [
+      { "gene": "KLF2", "role": "Shear-responsive transcription factor", "fold": 0.64, "p": 0.006 },
+      { "gene": "JAG2", "role": "Notch ligand · endothelial presentation", "fold": 0.61, "p": 0.004 },
+      { "gene": "NOTCH4", "role": "Receptor · NICD4 release", "fold": 0.66, "p": 0.007 },
+      { "gene": "DLL4", "role": "Ligand · arterial specification", "fold": 0.74, "p": 0.021 },
+      { "gene": "HEY1", "role": "Notch target · arterial identity", "fold": 0.58, "p": 0.003 },
+      { "gene": "HES1", "role": "Notch target · transcriptional repressor", "fold": 0.69, "p": 0.012 },
+      { "gene": "NOS3", "role": "eNOS · nitric oxide synthesis", "fold": 0.72, "p": 0.009 },
+      { "gene": "KDR", "role": "VEGFR2 · angiogenic signalling", "fold": 1.34, "p": 0.018 },
+      { "gene": "ICAM1", "role": "Leukocyte adhesion · inflammation", "fold": 1.41, "p": 0.011 }
+    ],
+    "nicd4NuclearFraction": 0.27,
+    "nicd4NuclearFractionPreflight": 0.44,
+    "shearStressDynCm2": 8.6,
+    "shearStressPreflightDynCm2": 14.2,
+    "cecPerMl": 18.6,
+    "cecPreflightPerMl": 6.2,
+    "empPerUl": 412,
+    "empPreflightPerUl": 236,
+    "fmdPreflightPct": 7.4
+  },
+  "cardiovascular": {
+    "cephaladShiftL": 1.8,
+    "jugularCsaMm2": 112,
+    "jugularCsaPreflightMm2": 64,
+    "jugularFlowGrade": "Grade 2 · stagnant",
+    "strokeVolumeMl": 86,
+    "strokeVolumePreflightMl": 70,
+    "cardiacOutputLmin": 5.9,
+    "plasmaVolumeDeltaPct": -11.4,
+    "pwvMs": 7.9,
+    "pwvPreflightMs": 7.1,
+    "carotidImtMm": 0.71,
+    "carotidImtPreflightMm": 0.64
+  },
+  "vitals": {
+    "spo2Pct": 98,
+    "bpSystolic": 114,
+    "bpDiastolic": 72,
+    "hrvRmssdMs": 44,
+    "hrvRmssdPreflightMs": 51,
+    "respRate": 14,
+    "coreTempC": 37.4
+  },
+  "radiation": {
+    "missionCumulativeMsv": 96.6,
+    "careerLimitMsv": 600,
+    "saaPasses24h": 6,
+    "qualityFactorAvg": 2.1,
+    "kpIndex": 2,
+    "solarParticleEvent": false,
+    "shieldingGcm2": 20,
+    "dosimeter": "Crew personal active dosimeter"
+  }
+}
