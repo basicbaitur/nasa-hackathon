@@ -95,7 +95,8 @@ If styles look stale after pulling changes, stop the server, delete the `.next` 
 | Route | What it is |
 |---|---|
 | `/` | Secure lock screen |
-| `/crew` | On-board crew console (face scan) |
+| `/crew` | On-board crew console: first-person EVA helmet HUD (face scan) |
+| `/crew/classic` | Previous card-grid crew console |
 | `/ground` | Mission Control (PIN **1969**) |
 | `/dashboard` | Original single-page dashboard |
 
@@ -146,6 +147,19 @@ components/astro/
 ```
 
 **Native browser APIs used:** Server-Sent Events, Canvas 2D, Web Audio, Web Speech (recognition and synthesis), ResizeObserver, `matchMedia`, `window.print`.
+
+## 🪖 EVA helmet HUD (`/crew`)
+
+The crew console is seen from inside the astronaut's helmet:
+
+- **Helmet + visor.** An SVG helmet shell frames a curved visor with glass tint, reflections, grain and breath fog that pulses with the respiration rate (stronger on Watch/Alert).
+- **The view outside.** Mars is a real lit globe (equirectangular texture projected per pixel on a canvas), plus the Sun, a distant Earth with a link-status marker, a Milky Way photo and a parallax starfield. Moving the mouse turns the head with inertia; the astronaut also floats gently.
+- **HUD symbology.** Left: live ECG sweep, risk ring, NDI / IOP / BBB against the ±2σ baseline band. Right: synthetic PLSS life support (O₂, CO₂, suit pressure, battery, temperature, feedwater: `lib/suit.ts`), dosimeter, comms. Centre: heading tape, reticle with pitch ladder, alarms and the next checklist action.
+- **Modules.** The dock (keys `1`–`7`) projects holographic windows: digital twin, risk breakdown, deep-space link, 72 h forecast, checklist, copilot, event log. `Esc` closes, `F` toggles full screen.
+- **Events.** A solar particle event makes the Sun flare, streams protons past the visor, adds cosmic-ray "light flashes" and plays NASA SDO flare footage in the HUD. Alert turns the visor edge red, glitches the HUD and sounds the master alarm. LOS adds signal static.
+- **Audio.** Helmet power-on hiss, breathing at the current respiration rate, the existing telemetry pings and klaxon.
+
+Media credits: planet, Sun and Milky Way textures by [Solar System Scope](https://www.solarsystemscope.com/textures/) (CC BY 4.0, based on NASA data); solar flare video from NASA's Solar Dynamics Observatory (public domain, NASA Image and Video Library, `GSFC_20160426_SDO_m12224_SolarFlare`).
 
 ## Notes and limits
 

@@ -102,6 +102,64 @@ export function blip(freq = 1600, vol = 0.03, dur = 0.06) {
   o.stop(t + dur + 0.02);
 }
 
+let noiseBuf: AudioBuffer | null = null;
+function noise(a: AudioContext) {
+  if (!noiseBuf) {
+    noiseBuf = a.createBuffer(1, a.sampleRate * 2, a.sampleRate);
+    const d = noiseBuf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+  }
+  const src = a.createBufferSource();
+  src.buffer = noiseBuf;
+  src.loop = true;
+  return src;
+}
+
+/** One soft breath inside the helmet: filtered noise, inhale then exhale. */
+export function breathe(period = 4.2, vol = 0.05) {
+  const a = audio();
+  if (!a || !master || a.state !== "running") return;
+  const t = a.currentTime;
+  const src = noise(a);
+  const bp = a.createBiquadFilter();
+  bp.type = "bandpass";
+  bp.Q.value = 0.9;
+  const g = a.createGain();
+  const inh = period * 0.38;
+  const exh = period * 0.5;
+  bp.frequency.setValueAtTime(900, t);
+  bp.frequency.linearRampToValueAtTime(1500, t + inh);
+  bp.frequency.setValueAtTime(700, t + inh + 0.15);
+  bp.frequency.linearRampToValueAtTime(420, t + inh + exh);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.linearRampToValueAtTime(vol * 0.7, t + inh * 0.6);
+  g.gain.linearRampToValueAtTime(0.0001, t + inh);
+  g.gain.linearRampToValueAtTime(vol, t + inh + 0.25);
+  g.gain.linearRampToValueAtTime(0.0001, t + inh + exh);
+  src.connect(bp).connect(g).connect(master);
+  src.start(t, Math.random());
+  src.stop(t + inh + exh + 0.05);
+}
+
+/** Helmet seal / pressurisation hiss. */
+export function hiss(dur = 1.4, vol = 0.07) {
+  const a = audio();
+  if (!a || !master || a.state !== "running") return;
+  const t = a.currentTime;
+  const src = noise(a);
+  const hp = a.createBiquadFilter();
+  hp.type = "highpass";
+  hp.frequency.setValueAtTime(5200, t);
+  hp.frequency.exponentialRampToValueAtTime(1800, t + dur);
+  const g = a.createGain();
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(vol, t + 0.05);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  src.connect(hp).connect(g).connect(master);
+  src.start(t);
+  src.stop(t + dur + 0.05);
+}
+
 export function chord(freqs: number[], vol = 0.04, dur = 0.5) {
   freqs.forEach((f, i) => setTimeout(() => blip(f, vol, dur), i * 90));
 }
