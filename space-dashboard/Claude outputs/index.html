@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AstroSentinel · Asal-team</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+<style>
+  :root {
+    --bg: #03050b;
+    --panel: rgba(15, 23, 42, 0.45);
+    --line: rgba(255, 255, 255, 0.1);
+    --ink: #e6edf7;
+    --muted: #9aabc4;
+    --cyan: #4cc9f0;
+    --blue: #2563eb;
+    --violet: #8b5cf6;
+    --nominal: #5ee0c1;
+    --watch: #ffb454;
+    --alert: #ff7a7a;
+    --display: "Space Grotesk", "Inter", system-ui, sans-serif;
+    --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  }
+
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink); font-family: var(--sans); overflow: hidden; }
+
+  /* ───────── Deep-space backdrop ───────── */
+  .space { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+    background: radial-gradient(ellipse at 50% 120%, #0b1d3a 0%, #050811 55%, #02040a 100%); }
+  .space::before { content: ""; position: absolute; inset: -20%;
+    background:
+      radial-gradient(900px 600px at 18% 12%, rgba(76, 201, 240, 0.16), transparent 60%),
+      radial-gradient(800px 600px at 85% 28%, rgba(88, 28, 135, 0.3), transparent 60%),
+      radial-gradient(700px 500px at 50% 100%, rgba(37, 99, 235, 0.18), transparent 60%);
+    animation: nebula 18s ease-in-out infinite alternate; }
+  .stars, .stars2 { position: absolute; inset: 0; background-repeat: repeat; }
+  .stars { opacity: .55; background-size: 380px 280px; animation: twinkle 6s ease-in-out infinite, drift 240s linear infinite;
+    background-image:
+      radial-gradient(1px 1px at 20px 30px, #fff, transparent),
+      radial-gradient(1px 1px at 120px 80px, rgba(255,255,255,.8), transparent),
+      radial-gradient(1.5px 1.5px at 200px 160px, #cdeffd, transparent),
+      radial-gradient(1px 1px at 280px 40px, rgba(255,255,255,.7), transparent),
+      radial-gradient(1px 1px at 340px 210px, #fff, transparent),
+      radial-gradient(1px 1px at 60px 250px, rgba(255,255,255,.6), transparent); }
+  .stars2 { opacity: .45; background-size: 560px 520px; animation: twinkle 9s ease-in-out infinite reverse, drift 420s linear infinite reverse;
+    background-image:
+      radial-gradient(1px 1px at 50px 90px, rgba(76,201,240,.9), transparent),
+      radial-gradient(2px 2px at 310px 300px, rgba(255,255,255,.9), transparent),
+      radial-gradient(1px 1px at 470px 120px, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 150px 420px, rgba(167,139,250,.8), transparent); }
+  .scan { position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(255,255,255,.015) 0 1px, transparent 1px 3px); }
+  body.storm .space::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 40%, rgba(255,90,90,.18), transparent 65%); animation: redpulse 1.6s ease-in-out infinite; }
+
+  @keyframes nebula { from { transform: scale(1); opacity: .8; } to { transform: scale(1.12) translate(-2%, 2%); opacity: 1; } }
+  @keyframes twinkle { 0%,100% { opacity: .35; } 50% { opacity: .7; } }
+  @keyframes drift { from { background-position: 0 0; } to { background-position: -2000px 1000px; } }
+  @keyframes redpulse { 0%,100% { opacity: .35; } 50% { opacity: 1; } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes glowpulse { 0%,100% { box-shadow: 0 0 14px rgba(255,122,122,.25); border-color: rgba(255,122,122,.45); } 50% { box-shadow: 0 0 34px rgba(255,122,122,.6); border-color: rgba(255,122,122,.95); } }
+  @keyframes flow { to { stroke-dashoffset: -40; } }
+  @keyframes ping { 75%,100% { transform: scale(2.2); opacity: 0; } }
+
+  /* ───────── Reveal overrides ───────── */
+  .reveal-viewport, .reveal { background: transparent !important; }
+  .reveal { position: relative; z-index: 1; font-family: var(--sans); color: var(--ink); }
+  .reveal .slides { text-align: left; }
+  .reveal .slides > section { padding: 0; }
+  .reveal .controls { color: var(--cyan); }
+  .reveal .progress { color: var(--cyan); height: 3px; }
+
+  .slide { box-sizing: border-box; width: 1280px; height: 720px; padding: 64px 80px 56px; display: flex; flex-direction: column; position: relative; }
+  .center { justify-content: center; align-items: center; text-align: center; }
+
+  .kicker { font-family: var(--mono); font-size: 15px; letter-spacing: .32em; text-transform: uppercase; color: var(--cyan); display: flex; align-items: center; gap: 12px; margin: 0 0 18px; }
+  .kicker::before { content: ""; width: 3px; height: 16px; border-radius: 3px; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
+  .center .kicker::before { display: none; }
+
+  h1, h2, h3 { font-family: var(--display); margin: 0; color: var(--ink); text-transform: none; letter-spacing: -.02em; }
+  h1 { font-size: 150px; line-height: .95; font-weight: 700; }
+  h2 { font-size: 62px; line-height: 1.05; font-weight: 700; }
+  h3 { font-size: 26px; font-weight: 600; }
+  p { margin: 0; }
+  .grad { background: linear-gradient(90deg, #22d3ee, #2563eb); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 0 28px rgba(76,201,240,.35)); }
+  .grad-red { background: linear-gradient(90deg, #ff9a7a, #ff4d6d); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 0 26px rgba(255,90,110,.4)); }
+  .lead { font-size: 28px; color: var(--muted); margin-top: 18px; line-height: 1.35; }
+  .lead b { color: var(--ink); }
+  .mono { font-family: var(--mono); }
+  .muted { color: var(--muted); }
+
+  .glass { background: var(--panel); backdrop-filter: blur(22px) saturate(140%); -webkit-backdrop-filter: blur(22px) saturate(140%); border: 1px solid var(--line); border-radius: 22px; box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 20px 50px -25px rgba(0,0,0,.9); position: relative; }
+  .glass.cyan { border-color: rgba(76,201,240,.35); box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 0 22px rgba(76,201,240,.15); }
+  .glass.red { animation: glowpulse 1.6s ease-in-out infinite; border-color: rgba(255,122,122,.6); }
+  .glass::before, .glass::after { content: ""; position: absolute; width: 14px; height: 14px; pointer-events: none; }
+  .glass::before { left: -1px; top: -1px; border-left: 1px solid rgba(76,201,240,.7); border-top: 1px solid rgba(76,201,240,.7); border-top-left-radius: 22px; }
+  .glass::after { right: -1px; bottom: -1px; border-right: 1px solid rgba(76,201,240,.7); border-bottom: 1px solid rgba(76,201,240,.7); border-bottom-right-radius: 22px; }
+
+  .row { display: flex; gap: 24px; }
+  .grow { flex: 1; }
+
+  .stat { padding: 30px 30px 28px; flex: 1; }
+  .stat .num { font-family: var(--display); font-size: 74px; font-weight: 700; line-height: 1; }
+  .stat .lbl { margin-top: 12px; font-size: 20px; color: var(--muted); line-height: 1.35; }
+  .stat .lbl b { color: var(--ink); font-weight: 600; }
+
+  .chip { display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 999px; font-family: var(--mono); font-size: 15px; letter-spacing: .12em; text-transform: uppercase; border: 1px solid rgba(76,201,240,.45); color: var(--cyan); background: rgba(76,201,240,.08); box-shadow: 0 0 14px rgba(76,201,240,.25); }
+  .chip.red { color: var(--alert); border-color: rgba(255,122,122,.6); background: rgba(255,122,122,.1); box-shadow: 0 0 16px rgba(255,122,122,.35); }
+  .chip.green { color: var(--nominal); border-color: rgba(94,224,193,.5); background: rgba(94,224,193,.08); box-shadow: 0 0 14px rgba(94,224,193,.25); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; box-shadow: 0 0 8px currentColor; position: relative; }
+  .dot.live::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: currentColor; animation: ping 1.4s cubic-bezier(0,0,.2,1) infinite; }
+
+  .bullets { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 18px; }
+  .bullets li { font-size: 27px; line-height: 1.3; font-weight: 500; position: relative; padding-left: 28px; }
+  .bullets li::before { content: ""; position: absolute; left: 0; top: 12px; width: 10px; height: 10px; border-radius: 2px; transform: rotate(45deg); background: var(--cyan); box-shadow: 0 0 12px var(--cyan); }
+  .bullets.red li::before { background: var(--alert); box-shadow: 0 0 12px var(--alert); }
+  .bullets li span { color: var(--muted); font-weight: 400; }
+
+  .pillar { padding: 30px; flex: 1; }
+  .pillar .ico { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; background: rgba(76,201,240,.1); border: 1px solid rgba(76,201,240,.45); box-shadow: 0 0 18px rgba(76,201,240,.35); color: var(--cyan); margin-bottom: 20px; }
+  .pillar h3 { margin-bottom: 10px; }
+  .pillar p { font-size: 19px; color: var(--muted); line-height: 1.45; }
+
+  /* screenshot slots */
+  .shot { flex: 1.35; border-radius: 22px; overflow: hidden; position: relative; display: grid; place-items: center; cursor: pointer;
+    border: 2px dashed rgba(76,201,240,.45); background: repeating-linear-gradient(135deg, rgba(76,201,240,.04) 0 14px, transparent 14px 28px), rgba(5,10,20,.55);
+    box-shadow: 0 0 30px rgba(76,201,240,.15), inset 0 0 60px rgba(76,201,240,.06); }
+  .shot.red { border-color: rgba(255,122,122,.55); box-shadow: 0 0 34px rgba(255,122,122,.25), inset 0 0 60px rgba(255,122,122,.06); }
+  .shot.drag { border-style: solid; box-shadow: 0 0 40px rgba(76,201,240,.6); }
+  .shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+  .shot .ph { text-align: center; padding: 30px; }
+  .shot .ph .big { font-family: var(--mono); font-size: 18px; letter-spacing: .25em; text-transform: uppercase; color: var(--cyan); }
+  .shot.red .ph .big { color: var(--alert); }
+  .shot .ph .small { margin-top: 12px; font-family: var(--mono); font-size: 14px; color: var(--muted); line-height: 1.6; }
+  .shot .corner { position: absolute; width: 26px; height: 26px; border-color: var(--cyan); border-style: solid; }
+  .shot.red .corner { border-color: var(--alert); }
+  .shot .c1 { left: 14px; top: 14px; border-width: 2px 0 0 2px; }
+  .shot .c2 { right: 14px; top: 14px; border-width: 2px 2px 0 0; }
+  .shot .c3 { left: 14px; bottom: 14px; border-width: 0 0 2px 2px; }
+  .shot .c4 { right: 14px; bottom: 14px; border-width: 0 2px 2px 0; }
+  .shot input { display: none; }
+
+  /* science chain */
+  .chain { display: flex; align-items: stretch; gap: 0; margin-top: 34px; }
+  .node { flex: 1; padding: 26px 24px; text-align: center; }
+  .node .tag { font-family: var(--mono); font-size: 13px; letter-spacing: .25em; text-transform: uppercase; color: var(--muted); }
+  .node .name { font-family: var(--display); font-size: 34px; font-weight: 700; margin-top: 10px; }
+  .node .desc { font-size: 17px; color: var(--muted); margin-top: 10px; line-height: 1.4; }
+  .arrow { width: 56px; flex: none; display: grid; place-items: center; }
+  .arrow svg { width: 56px; height: 24px; overflow: visible; }
+  .arrow path { stroke: var(--cyan); stroke-width: 2.5; fill: none; stroke-dasharray: 6 6; animation: flow 1s linear infinite; filter: drop-shadow(0 0 6px var(--cyan)); }
+  .formula { margin-top: 30px; padding: 18px 26px; font-family: var(--mono); font-size: 19px; color: var(--muted); display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+  .formula b { color: var(--cyan); font-weight: 600; }
+  .foot { position: absolute; left: 80px; bottom: 26px; font-family: var(--mono); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: rgba(154,171,196,.7); }
+
+  /* title slide */
+  .orbit { position: absolute; left: 50%; top: 50%; width: 760px; height: 760px; margin: -380px 0 0 -380px; border-radius: 50%; border: 1px solid rgba(76,201,240,.12); pointer-events: none; }
+  .orbit::before { content: ""; position: absolute; inset: 60px; border-radius: 50%; border: 1px dashed rgba(76,201,240,.16); animation: spin 90s linear infinite; }
+  .orbit::after { content: ""; position: absolute; inset: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(76,201,240,.16), transparent 70%); }
+  .sat { position: absolute; left: 50%; top: 50%; width: 760px; height: 760px; margin: -380px 0 0 -380px; animation: spin 24s linear infinite; pointer-events: none; }
+  .sat i { position: absolute; left: 50%; top: -5px; width: 10px; height: 10px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 16px 4px rgba(76,201,240,.8); }
+  .topbar { position: absolute; left: 80px; right: 80px; top: 40px; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 14px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
+  .topbar .lock { color: var(--watch); }
+
+  /* flow diagram */
+  .flow { margin-top: 30px; padding: 22px 28px; display: flex; align-items: center; justify-content: space-between; font-family: var(--mono); font-size: 16px; letter-spacing: .14em; text-transform: uppercase; }
+  .flow .st { padding: 10px 16px; border-radius: 12px; border: 1px solid var(--line); background: rgba(255,255,255,.03); }
+  .flow .st.hot { color: var(--cyan); border-color: rgba(76,201,240,.5); box-shadow: 0 0 16px rgba(76,201,240,.3); }
+  .flow .ar { color: var(--cyan); text-shadow: 0 0 8px var(--cyan); }
+
+  .closing h2 { font-size: 78px; line-height: 1.08; max-width: 1050px; }
+
+  /* Fallback if Reveal.js CDN is unreachable */
+  body.no-reveal .reveal .slides > section { display: none; position: absolute; inset: 0; margin: auto; width: 1280px; height: 720px; }
+  body.no-reveal .reveal .slides > section.on { display: block; }
+  body.no-reveal .reveal .slides { position: fixed; left: 50%; top: 50%; width: 1280px; height: 720px; transform-origin: center; }
+  body.no-reveal .fragment { opacity: 1 !important; visibility: visible !important; }
+</style>
+</head>
+<body>
+<div class="space" aria-hidden="true"><div class="stars"></div><div class="stars2"></div><div class="scan"></div></div>
+
+<div class="reveal">
+  <div class="slides">
+
+    <!-- 1 · TITLE -->
+    <section data-state="title">
+      <div class="slide center">
+        <div class="orbit"></div><div class="sat"><i></i></div>
+        <div class="topbar"><span>AstroSentinel OS · secure terminal</span><span>NASA Space Apps · Bishkek</span><span class="lock">● System armed</span></div>
+        <p class="kicker">Asal-team presents</p>
+        <h1 class="grad">AstroSentinel</h1>
+        <p class="lead" style="font-size:34px;margin-top:28px">The <b>44-minute</b> problem.</p>
+        <p class="mono muted" style="margin-top:22px;font-size:16px;letter-spacing:.25em;text-transform:uppercase">Offline-first medical OS for Mars missions</p>
+      </div>
+    </section>
+
+    <!-- 2 · PROBLEM -->
+    <section>
+      <div class="slide">
+        <p class="kicker">The problem</p>
+        <h2>Earth can't save you <span class="grad-red">on Mars.</span></h2>
+        <div class="row" style="margin-top:44px">
+          <div class="glass stat fragment fade-up"><div class="num grad">3–22<span style="font-size:36px"> min</span></div><div class="lbl"><b>One-way signal delay</b><br />Mars ⇄ Earth</div></div>
+          <div class="glass stat fragment fade-up"><div class="num grad">44<span style="font-size:36px"> min</span></div><div class="lbl"><b>Round trip</b><br />one question, one answer</div></div>
+          <div class="glass stat red fragment fade-up"><div class="num grad-red">~2<span style="font-size:36px"> weeks</span></div><div class="lbl"><b>Total blackout</b><br />at solar conjunction</div></div>
+        </div>
+        <p class="lead fragment fade-up" style="margin-top:40px">Today, crew health monitoring <b>depends on Earth.</b></p>
+      </div>
+    </section>
+
+    <!-- 3 · SOLUTION -->
+    <section>
+      <div class="slide">
+        <p class="kicker">The solution</p>
+        <h2>We bring the doctor <span class="grad">to the ship.</span></h2>
+        <p class="lead"><b>100% on-board medical OS.</b> No Earth required.</p>
+        <div class="row" style="margin-top:36px">
+          <div class="glass cyan pillar fragment fade-up">
+            <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M8 12h2l1.5-3 2 6 1.5-3h1"/></svg></div>
+            <h3>On-board analysis</h3><p>Risk, alerts and actions computed locally, in real time.</p>
+          </div>
+          <div class="glass cyan pillar fragment fade-up">
+            <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5M4 19h16M8 15v-4M12 15V8M16 15v-6"/></svg></div>
+            <h3>Explainable score</h3><p>Every risk point traced to a biomarker. No black box.</p>
+          </div>
+          <div class="glass cyan pillar fragment fade-up">
+            <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3"/><path d="M18 3v4h-4M6 21v-4h4"/></svg></div>
+            <h3>Store &amp; forward</h3><p>Digests queue during blackout, sync when the link returns.</p>
+          </div>
+        </div>
+        <div class="glass flow fragment fade-up">
+          <span class="st">Sensors</span><span class="ar">→</span>
+          <span class="st hot">On-board engine</span><span class="ar">→</span>
+          <span class="st">Crew console</span><span class="ar">⇄</span>
+          <span class="st">Store &amp; forward</span><span class="ar">⇄</span>
+          <span class="st">Mission Control</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 · DIGITAL TWIN -->
+    <section>
+      <div class="slide">
+        <p class="kicker">Working product · localhost:3000</p>
+        <h2>Digital twin. <span class="grad">Live.</span></h2>
+        <div class="row" style="margin-top:34px;flex:1;min-height:0">
+          <div style="flex:.9;display:flex;flex-direction:column;justify-content:center;gap:28px">
+            <ul class="bullets">
+              <li class="fragment fade-up">Biometric + clearance access</li>
+              <li class="fragment fade-up">Live <b>Jag2 · Notch4 · BBB</b></li>
+              <li class="fragment fade-up">Click the body. <span>See the biology.</span></li>
+              <li class="fragment fade-up">Updates every second</li>
+            </ul>
+            <div class="fragment fade-up"><span class="chip green"><span class="dot live"></span>Coded · running · not Figma</span></div>
+          </div>
+          <div class="shot" data-file="shot-twin.png" title="Click or drop a screenshot">
+            <img alt="AstroSentinel digital twin screenshot" />
+            <div class="ph"><div class="big">Screenshot · Digital twin</div><div class="small">Drop an image here or click to choose<br />or save it as <b>shot-twin.png</b> next to this file</div></div>
+            <i class="corner c1"></i><i class="corner c2"></i><i class="corner c3"></i><i class="corner c4"></i>
+            <input type="file" accept="image/*" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 · SCIENCE -->
+    <section>
+      <div class="slide">
+        <p class="kicker">The science · use of data</p>
+        <h2 style="font-size:54px">Radiation → Notch disruption → <span class="grad-red">BBB failure</span></h2>
+        <div class="chain">
+          <div class="glass red node fragment fade-up"><div class="tag">Driver</div><div class="name">Radiation</div><div class="desc">GCR + solar particle events</div></div>
+          <div class="arrow fragment fade-in"><svg viewBox="0 0 56 24"><path d="M2 12h48M42 5l8 7-8 7"/></svg></div>
+          <div class="glass cyan node fragment fade-up"><div class="tag">Pathway</div><div class="name">Notch axis</div><div class="desc">Endothelial cell-to-cell signaling</div></div>
+          <div class="arrow fragment fade-in"><svg viewBox="0 0 56 24"><path d="M2 12h48M42 5l8 7-8 7"/></svg></div>
+          <div class="glass cyan node fragment fade-up"><div class="tag">Ligand · Receptor</div><div class="name">Jag2 · Notch4</div><div class="desc">Vessel stability signal</div></div>
+          <div class="arrow fragment fade-in"><svg viewBox="0 0 56 24"><path d="M2 12h48M42 5l8 7-8 7"/></svg></div>
+          <div class="glass red node fragment fade-up"><div class="tag">Outcome</div><div class="name">BBB</div><div class="desc">Blood-brain barrier integrity</div></div>
+        </div>
+        <div class="row fragment fade-up" style="margin-top:30px;gap:14px;flex-wrap:wrap">
+          <span class="chip">Personal baselines</span>
+          <span class="chip">Every risk point explained</span>
+          <span class="chip">NASA OSDR / GeneLab calibration</span>
+        </div>
+        <div class="glass formula fragment fade-up">
+          <span>score = Σ w · clamp(z, 0, 4)</span>
+          <span><b>NDI</b> 40% · <b>Dose</b> 25% · <b>IOP</b> 20% · <b>BBB</b> 15%</span>
+        </div>
+        <p class="foot">Demo values synthetic · ranges calibrated on NASA open data</p>
+      </div>
+    </section>
+
+    <!-- 6 · SOLAR STORM -->
+    <section data-state="storm">
+      <div class="slide">
+        <p class="kicker" style="color:var(--alert)">Live scenario</p>
+        <h2>Solar storm. <span class="grad-red">Instant alert.</span></h2>
+        <div class="row" style="margin-top:34px;flex:1;min-height:0">
+          <div style="flex:.9;display:flex;flex-direction:column;justify-content:center;gap:28px">
+            <ul class="bullets red">
+              <li class="fragment fade-up">Dose spike detected on board</li>
+              <li class="fragment fade-up">Red alert + siren <span>in seconds</span></li>
+              <li class="fragment fade-up">AI Copilot: <span>shelter · repeat IOP · notify CMO</span></li>
+              <li class="fragment fade-up">Zero data lost during blackout</li>
+            </ul>
+            <div class="fragment fade-up"><span class="chip red"><span class="dot live"></span>Alert · on-board response</span></div>
+          </div>
+          <div class="shot red" data-file="shot-storm.png" title="Click or drop a screenshot">
+            <img alt="AstroSentinel solar storm alert screenshot" />
+            <div class="ph"><div class="big">Screenshot · Solar storm alert</div><div class="small">Drop an image here or click to choose<br />or save it as <b>shot-storm.png</b> next to this file</div></div>
+            <i class="corner c1"></i><i class="corner c2"></i><i class="corner c3"></i><i class="corner c4"></i>
+            <input type="file" accept="image/*" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 · IMPACT -->
+    <section>
+      <div class="slide">
+        <p class="kicker">Impact &amp; feasibility</p>
+        <h2>Seconds, <span class="grad">not 44 minutes.</span></h2>
+        <div class="row" style="margin-top:44px">
+          <div class="glass cyan stat fragment fade-up"><div class="num grad">1</div><div class="lbl"><b>Laptop</b><br />Runs locally. No cloud.</div></div>
+          <div class="glass cyan stat fragment fade-up"><div class="num grad">KB</div><div class="lbl"><b>Digests</b><br />not raw data streams</div></div>
+          <div class="glass cyan stat fragment fade-up"><div class="num grad">0</div><div class="lbl"><b>Packets lost</b><br />during loss of signal</div></div>
+        </div>
+        <div class="glass fragment fade-up" style="margin-top:34px;padding:22px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap">
+          <span class="mono" style="font-size:15px;letter-spacing:.25em;text-transform:uppercase;color:var(--cyan)">Next</span>
+          <span style="font-size:22px">Real NASA OSDR datasets</span><span class="muted">·</span>
+          <span style="font-size:22px">Wearable sensors</span><span class="muted">·</span>
+          <span style="font-size:22px">Flight-surgeon validation</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 · CLOSING -->
+    <section data-state="title">
+      <div class="slide center closing">
+        <div class="orbit"></div><div class="sat"><i></i></div>
+        <h2>When Earth can't answer,<br /><span class="grad">the crew still can.</span></h2>
+        <p class="mono" style="margin-top:40px;font-size:18px;letter-spacing:.3em;text-transform:uppercase;color:var(--cyan)">AstroSentinel · Asal-team</p>
+        <p class="muted" style="margin-top:14px;font-size:20px">Thank you</p>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  /* Screenshot slots: auto-load shot-*.png next to this file, or click / drag-and-drop an image. */
+  document.querySelectorAll(".shot").forEach(function (box) {
+    var img = box.querySelector("img");
+    var input = box.querySelector("input");
+    var show = function (src) { img.src = src; img.style.display = "block"; };
+    img.style.display = "none";
+    img.onerror = function () { img.style.display = "none"; };
+    img.onload = function () { img.style.display = "block"; };
+    img.src = box.dataset.file;
+    var read = function (file) {
+      if (!file || !file.type.startsWith("image/")) return;
+      var r = new FileReader();
+      r.onload = function () { show(r.result); };
+      r.readAsDataURL(file);
+    };
+    box.addEventListener("click", function () { input.click(); });
+    input.addEventListener("change", function () { read(input.files[0]); });
+    box.addEventListener("dragover", function (e) { e.preventDefault(); box.classList.add("drag"); });
+    box.addEventListener("dragleave", function () { box.classList.remove("drag"); });
+    box.addEventListener("drop", function (e) { e.preventDefault(); box.classList.remove("drag"); read(e.dataTransfer.files[0]); });
+  });
+
+  if (window.Reveal) {
+    Reveal.initialize({
+      hash: true,
+      width: 1280,
+      height: 720,
+      margin: 0.03,
+      center: false,
+      controls: true,
+      progress: true,
+      slideNumber: "c/t",
+      transition: "fade",
+      backgroundTransition: "fade",
+      transitionSpeed: "default"
+    });
+    Reveal.on("slidechanged", function (e) {
+      document.body.classList.toggle("storm", e.currentSlide.dataset.state === "storm");
+    });
+  } else {
+    /* Offline fallback: simple arrow-key navigation without Reveal.js */
+    document.body.classList.add("no-reveal");
+    var slides = Array.prototype.slice.call(document.querySelectorAll(".reveal .slides > section"));
+    var wrap = document.querySelector(".reveal .slides");
+    var i = 0;
+    var fit = function () {
+      var s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+      wrap.style.transform = "translate(-50%, -50%) scale(" + s + ")";
+    };
+    var go = function (n) {
+      i = Math.max(0, Math.min(slides.length - 1, n));
+      slides.forEach(function (s, k) { s.classList.toggle("on", k === i); });
+      document.body.classList.toggle("storm", slides[i].dataset.state === "storm");
+    };
+    window.addEventListener("resize", fit);
+    window.addEventListener("keydown", function (e) {
+      if (["ArrowRight", "ArrowDown", "PageDown", " ", "Enter"].indexOf(e.key) > -1) go(i + 1);
+      if (["ArrowLeft", "ArrowUp", "PageUp", "Backspace"].indexOf(e.key) > -1) go(i - 1);
+    });
+    document.addEventListener("click", function (e) { if (!e.target.closest(".shot")) go(i + 1); });
+    fit(); go(0);
+  }
+</script>
+</body>
+</html>
